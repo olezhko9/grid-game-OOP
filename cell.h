@@ -12,16 +12,16 @@ enum CellType {
 
 class Cell {
 private:
-    GameObject *_element = nullptr;
+    GameObject *_object = nullptr;
     CellType _cellType;
 public:
     explicit Cell(CellType cellType = GROUND);
 
-    GameObject *getElement() const;
+    GameObject *getObject() const;
 
-    void setElement(GameObject *element);
+    void setObject(GameObject *element);
 
-    char* getSymbol() const;
+    char *getSymbol() const;
 };
 
 #endif //GAME_CELL_H

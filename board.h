@@ -5,20 +5,20 @@
 
 class Board {
 private:
-    int rows;
-    int cols;
-    Cell **cells;
+    int _rows;
+    int _cols;
+    Cell **_cells;
 
-    int entrancePos[2];
-    int exitPos[2];
+    int *getRandomPos(int min, int max);
 
-    int* getRandomPos(int min, int max);
 public:
-    Board(int r, int c);
+    Board(int rows, int cols);
 
     Board(const Board &board); // конструктор копирования
 
-    Cell** getCells() const;
+    Cell **getCells() const;
+
+    Cell *getCellAt(int row, int col);
 
     int getRows() const;
 
