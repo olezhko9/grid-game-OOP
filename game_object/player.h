@@ -6,7 +6,7 @@
 class Player : public GameObject {
 public:
     Player(char* name);
-    char * getSymbol() override;
+    char * render() override;
 
 private:
     char *_name;

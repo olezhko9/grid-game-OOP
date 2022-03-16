@@ -2,9 +2,9 @@
 
 Cell::Cell(CellType cellType) : _cellType(cellType) {};
 
-char *Cell::getSymbol() const {
+char *Cell::render() const {
     if (_object != nullptr) {
-        return _object->getSymbol();
+        return _object->render();
     }
 
     char *symbol;

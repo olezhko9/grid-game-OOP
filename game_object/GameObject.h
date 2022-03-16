@@ -3,7 +3,7 @@
 
 class GameObject {
 public:
-    virtual char *getSymbol() = 0;
+    virtual char *render() = 0;
 
 protected:
     struct position {

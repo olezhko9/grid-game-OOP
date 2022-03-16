@@ -21,7 +21,7 @@ public:
 
     void setObject(GameObject *element);
 
-    char *getSymbol() const;
+    char *render() const;
 };
 
 #endif //GAME_CELL_H
