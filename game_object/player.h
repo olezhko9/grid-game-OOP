@@ -5,14 +5,16 @@
 
 class Player : public GameObject {
 public:
-    Player(char *name);
+    Player(const sf::Texture&);
 
     void init() override;
 
-    void render() override;
+    void update(float dt);
+
+    void render(sf::RenderWindow *window) override;
 
 private:
-    char *_name;
+    sf::Sprite _sprite;
 };
 
 #endif //GAME_PLAYER_H

@@ -10,6 +10,9 @@ public:
 
     Random();
 
+    Random (Random const&) = delete;
+    void operator=(Random const&) = delete;
+
     int randomInt(int max);
     int randomInt(int min, int max);
 };

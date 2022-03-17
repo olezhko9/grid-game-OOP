@@ -9,6 +9,8 @@ private:
     int _cols;
     Cell **_cells;
 
+    sf::RectangleShape **_grid;
+
     int *getRandomPos(int min, int max);
 
 public:
@@ -18,7 +20,9 @@ public:
 
     void init() override;
 
-    void render() override;
+    void render(sf::RenderWindow *) override;
+
+    void update(float) override;
 
     Cell **getCells() const;
 

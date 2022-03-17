@@ -10,9 +10,9 @@ void Cell::init() {
 
 }
 
-void Cell::render() {
+void Cell::render(sf::RenderWindow *window) {
     if (_object != nullptr) {
-        return _object->render();
+        return _object->render(window);
     }
 
     char *symbol;
@@ -28,7 +28,7 @@ void Cell::render() {
             break;
     }
 
-    std::cout << BOLDBLUE << symbol << RESET;
+//    std::cout << BOLDBLUE << symbol << RESET;
 }
 
 GameObject *Cell::getObject() const {
@@ -37,5 +37,9 @@ GameObject *Cell::getObject() const {
 
 void Cell::setObject(GameObject *element) {
     _object = element;
+}
+
+void Cell::update(float) {
+
 }
 

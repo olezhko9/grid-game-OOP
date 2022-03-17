@@ -3,6 +3,8 @@
 #include "board.h"
 #include "utils/random.h"
 
+#define CELL_SIZE 50
+
 Board::Board(int r, int c) {
     _rows = r;
     _cols = c;
@@ -37,9 +39,11 @@ void Board::init() {
     int *entrancePos = getRandomPos(_rows - 2, _rows);
     int *exitPos = getRandomPos(0, 2);
 
-    for (int i = 0; i < _rows; ++i) {
+    _grid = new sf::RectangleShape *[_rows];
+    for (int i = 0; i < _rows; i++) {
         _cells[i] = new Cell[_cols];
-        for (int j = 0; j < _cols; ++j) {
+        _grid[i] = new sf::RectangleShape[_cols];
+        for (int j = 0; j < _cols; j++) {
             CellType cellType = CellType::GROUND;
             if (i == entrancePos[0] && j == entrancePos[1]) {
                 cellType = CellType::ENTRANCE;
@@ -47,27 +51,24 @@ void Board::init() {
                 cellType = CellType::EXIT;
             }
             _cells[i][j] = Cell(cellType);
+
+            _grid[i][j] = sf::RectangleShape();
+            _grid[i][j].setSize(sf::Vector2f{CELL_SIZE, CELL_SIZE});
+            _grid[i][j].setOutlineColor(sf::Color::Blue);
+            _grid[i][j].setOutlineThickness(2.0f);
+            _grid[i][j].setPosition(j * CELL_SIZE + 5.0f, i * CELL_SIZE + 5.0f);
         }
     }
 }
 
-void printLines(int columns) {
-    for (int i = 0; i < columns; i++) {
-        std::cout << "+----";
+void Board::render(sf::RenderWindow *window) {
+    for (int i = 0; i < _rows; i++) {
+        for (int j = 0; j < _cols; j++) {
+            window->draw(_grid[i][j]);
+        }
     }
-    std::cout << "+" << std::endl;
 }
 
-void Board::render() {
-    printLines(this->getCols());
-    for (int i = 0; i < this->getRows(); ++i) {
-        for (int j = 0; j < this->getCols(); ++j) {
-            std::cout << "| ";
-            // отображаем содержимое ячейки
-            this->getCellAt(i, j)->render();
-            std::cout << " ";
-        }
-        std::cout << "|" << std::endl;
-        printLines(this->getCols());
-    }
+void Board::update(float) {
+
 }

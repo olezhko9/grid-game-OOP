@@ -1,11 +1,10 @@
+#include "Engine.h"
 #include <iostream>
-#include "Scene.h"
+#define FPS 30
 
 int main() {
     setlocale(LC_ALL, "rus");
 
-    Scene scene = Scene();
-    scene.init();
-
-    return 0;
+    Engine engine(FPS);
+    return engine.start();
 }

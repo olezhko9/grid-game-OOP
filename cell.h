@@ -19,7 +19,9 @@ public:
 
     void init() override;
 
-    void render() override;
+    void render(sf::RenderWindow *) override;
+
+    void update(float) override;
 
     GameObject *getObject() const;
 
