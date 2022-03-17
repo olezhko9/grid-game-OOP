@@ -1,7 +1,6 @@
-#include <cstring>
 #include <iostream>
 #include "board.h"
-#include "utils/random.h"
+#include "utils/Vector2d.h"
 
 #define CELL_SIZE 50
 
@@ -23,21 +22,13 @@ Cell **Board::getCells() const {
     return _cells;
 }
 
-int *Board::getRandomPos(int min, int max) {
-    int *pos = new int[2];
-    pos[0] = Random::getInstance()->randomInt(min, max);
-    pos[1] = Random::getInstance()->randomInt(min, max);
-
-    return pos;
-}
-
 Cell *Board::getCellAt(int row, int col) {
     return &_cells[row][col];
 }
 
 void Board::init() {
-    int *entrancePos = getRandomPos(_rows - 2, _rows);
-    int *exitPos = getRandomPos(0, 2);
+    Vector2d entrancePos = Vector2d::getRandom(_rows - 2, _rows);
+    Vector2d exitPos = Vector2d::getRandom(0, 2);
 
     _grid = new sf::RectangleShape *[_rows];
     for (int i = 0; i < _rows; i++) {
@@ -45,16 +36,22 @@ void Board::init() {
         _grid[i] = new sf::RectangleShape[_cols];
         for (int j = 0; j < _cols; j++) {
             CellType cellType = CellType::GROUND;
-            if (i == entrancePos[0] && j == entrancePos[1]) {
+            if (i == entrancePos.x && j == entrancePos.y) {
                 cellType = CellType::ENTRANCE;
-            } else if (i == exitPos[0] && j == exitPos[1]) {
+            } else if (i == exitPos.x && j == exitPos.y) {
                 cellType = CellType::EXIT;
             }
             _cells[i][j] = Cell(cellType);
 
             _grid[i][j] = sf::RectangleShape();
             _grid[i][j].setSize(sf::Vector2f{CELL_SIZE, CELL_SIZE});
-            _grid[i][j].setOutlineColor(sf::Color::Blue);
+            if (cellType == CellType::ENTRANCE) {
+                _grid[i][j].setFillColor(sf::Color::Cyan);
+            } else if (cellType == CellType::EXIT) {
+                _grid[i][j].setFillColor(sf::Color::Magenta);
+            } else {
+                _grid[i][j].setOutlineColor(sf::Color::Blue);
+            }
             _grid[i][j].setOutlineThickness(2.0f);
             _grid[i][j].setPosition(j * CELL_SIZE + 5.0f, i * CELL_SIZE + 5.0f);
         }

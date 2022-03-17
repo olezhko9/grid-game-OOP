@@ -29,6 +29,7 @@ int Engine::start() {
 
     GameObjectsManager::getInstance().init();
     board->getCellAt(0, 0)->setObject(player);
+    player->setPosition({10, 10});
 
     sf::Clock clock;
 
@@ -40,9 +41,30 @@ int Engine::start() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
+            else if (event.type == sf::Event::KeyPressed) {
+                switch (event.key.code) {
+                    case sf::Keyboard::Up:
+                        player->setPosition(Vector2d{player->getPosition().x, player->getPosition().y - 1});
+                        break;
+                    case sf::Keyboard::Right:
+                        player->setPosition(Vector2d{player->getPosition().x + 1, player->getPosition().y});
+                        break;
+                    case sf::Keyboard::Down:
+                        player->setPosition(Vector2d{player->getPosition().x, player->getPosition().y + 1});
+                        break;
+                    case sf::Keyboard::Left:
+                        player->setPosition(Vector2d{player->getPosition().x - 1, player->getPosition().y});
+                        break;
+                }
+            }
         }
 
+        std::cout << player->getPosition().x << ", " << player->getPosition().y << std::endl;
         GameObjectsManager::getInstance().update(dtSeconds);
+
+        if (board->getCellAt(player->getPosition().y, player->getPosition().x)->getCellType() == CellType::EXIT) {
+            window.close();
+        }
 
         window.clear();
 

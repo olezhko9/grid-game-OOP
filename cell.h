@@ -1,11 +1,10 @@
-
 #ifndef GAME_CELL_H
 #define GAME_CELL_H
 
 #include "game_object/GameObject.h"
 
 enum CellType {
-    GROUND,
+    GROUND = 0,
     ENTRANCE,
     EXIT
 };
@@ -26,6 +25,8 @@ public:
     GameObject *getObject() const;
 
     void setObject(GameObject *element);
+
+    CellType getCellType() const;
 };
 
 #endif //GAME_CELL_H
