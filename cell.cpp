@@ -1,8 +1,16 @@
+#include "iostream"
 #include "cell.h"
+
+#define RESET   "\033[0m"
+#define BOLDBLUE    "\033[1m\033[34m"
 
 Cell::Cell(CellType cellType) : _cellType(cellType) {};
 
-char *Cell::render() const {
+void Cell::init() {
+
+}
+
+void Cell::render() {
     if (_object != nullptr) {
         return _object->render();
     }
@@ -10,17 +18,17 @@ char *Cell::render() const {
     char *symbol;
     switch (_cellType) {
         case GROUND:
-            symbol = " ";
+            symbol = "  ";
             break;
         case ENTRANCE:
-            symbol = "I";
+            symbol = "I ";
             break;
         case EXIT:
-            symbol = "O";
+            symbol = "O ";
             break;
     }
 
-    return symbol;
+    std::cout << BOLDBLUE << symbol << RESET;
 }
 
 GameObject *Cell::getObject() const {

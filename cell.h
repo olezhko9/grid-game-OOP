@@ -10,18 +10,20 @@ enum CellType {
     EXIT
 };
 
-class Cell {
+class Cell : public GameObject {
 private:
     GameObject *_object = nullptr;
     CellType _cellType;
 public:
     explicit Cell(CellType cellType = GROUND);
 
+    void init() override;
+
+    void render() override;
+
     GameObject *getObject() const;
 
     void setObject(GameObject *element);
-
-    char *render() const;
 };
 
 #endif //GAME_CELL_H

@@ -20,5 +20,5 @@ int Random::randomInt(int max) {
 }
 
 int Random::randomInt(int min, int max) {
-    return rand() % max + min;
+    return rand() % (max - min) + min;
 }

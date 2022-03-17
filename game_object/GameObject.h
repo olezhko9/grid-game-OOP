@@ -3,7 +3,9 @@
 
 class GameObject {
 public:
-    virtual char *render() = 0;
+    virtual void init() = 0;
+
+    virtual void render() = 0;
 
 protected:
     struct position {

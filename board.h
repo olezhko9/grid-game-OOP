@@ -3,7 +3,7 @@
 
 #include "cell.h"
 
-class Board {
+class Board : public GameObject {
 private:
     int _rows;
     int _cols;
@@ -15,6 +15,10 @@ public:
     Board(int rows, int cols);
 
     Board(const Board &board); // конструктор копирования
+
+    void init() override;
+
+    void render() override;
 
     Cell **getCells() const;
 

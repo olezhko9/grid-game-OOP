@@ -5,8 +5,11 @@
 
 class Player : public GameObject {
 public:
-    Player(char* name);
-    char * render() override;
+    Player(char *name);
+
+    void init() override;
+
+    void render() override;
 
 private:
     char *_name;
