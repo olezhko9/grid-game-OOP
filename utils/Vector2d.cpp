@@ -20,3 +20,10 @@ Vector2d Vector2d::getRandom(int minX, int maxX, int minY, int maxY) {
             Random::getInstance()->randomInt(minY, maxY)
     };
 }
+
+Vector2d Vector2d::toGlobal() {
+    return Vector2d(
+            this->x * CELL_SIZE + CELL_BOARD_WIDTH,
+            this->y * CELL_SIZE + CELL_BOARD_WIDTH
+    );
+}

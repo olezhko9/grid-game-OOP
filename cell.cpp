@@ -1,30 +1,22 @@
 #include "cell.h"
 
-Cell::Cell(CellType cellType) : _cellType(cellType) {};
+Cell::Cell() {}
+
+Cell::Cell(int row, int col, const sf::Texture *texture, CellType cellType) {
+    _row = row;
+    _col = col;
+    _cellType = cellType;
+    _sprite = sf::Sprite(*texture);
+}
 
 void Cell::init() {
-
+    _sprite.setPosition(_col * CELL_SIZE, _row * CELL_SIZE);
 }
 
-void Cell::update(float) {
+void Cell::update(float) {}
 
-}
-
-void Cell::render(sf::RenderWindow *window) {
-    if (_object != nullptr) {
-        return _object->render(window);
-    }
-}
-
-GameObject *Cell::getObject() const {
-    return _object;
-}
-
-void Cell::setObject(GameObject *element) {
-    _object = element;
-}
+void Cell::render(sf::RenderWindow *window) {}
 
 CellType Cell::getCellType() const {
     return _cellType;
 }
-

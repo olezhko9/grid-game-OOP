@@ -16,20 +16,19 @@ int Engine::start() {
     resolution.y = sf::VideoMode::getDesktopMode().height;
 
     sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "SFML window");
-    window.setFramerateLimit(1.0f / _maxFPS);
+    window.setFramerateLimit(_maxFPS);
 
     auto *board = new Board(15, 30);
 
     sf::Texture playerTexture;
-    if (!playerTexture.loadFromFile("/home/olezhko/CLionProjects/game/assets/img/dragon.png")) return EXIT_FAILURE;
+    if (!playerTexture.loadFromFile("/home/olezhko/CLionProjects/game/assets/img/knight.png")) return EXIT_FAILURE;
     auto *player = new Player(playerTexture);
 
     GameObjectsManager::getInstance().addObject("board", board);
     GameObjectsManager::getInstance().addObject("player", player);
 
     GameObjectsManager::getInstance().init();
-    board->getCellAt(0, 0)->setObject(player);
-    player->setPosition({10, 10});
+    player->setPosition(board->getEntryPosition());
 
     sf::Clock clock;
 
@@ -59,7 +58,7 @@ int Engine::start() {
             }
         }
 
-        std::cout << player->getPosition().x << ", " << player->getPosition().y << std::endl;
+//        std::cout << player->getPosition().x << ", " << player->getPosition().y << std::endl;
         GameObjectsManager::getInstance().update(dtSeconds);
 
         if (board->getCellAt(player->getPosition().y, player->getPosition().x)->getCellType() == CellType::EXIT) {

@@ -2,6 +2,7 @@
 #define GAME_VECTOR2D_H
 
 #include "random.h"
+#include "../definitions.h"
 
 class Vector2d {
 public:
@@ -15,6 +16,8 @@ public:
     static Vector2d getRandom(int min, int max);
 
     static Vector2d getRandom(int minX, int maxX, int minY, int maxY);
+
+    Vector2d toGlobal();
 };
 
 #endif //GAME_VECTOR2D_H

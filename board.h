@@ -9,14 +9,18 @@ private:
     int _cols;
     Cell **_cells;
 
+    Vector2d entryPosition;
+    Vector2d exitPosition;
+
     sf::RectangleShape **_grid;
-
-    int *getRandomPos(int min, int max);
-
 public:
     Board(int rows, int cols);
 
     Board(const Board &board); // конструктор копирования
+
+    const Vector2d &getEntryPosition() const;
+
+    const Vector2d &getExitPosition() const;
 
     void init() override;
 

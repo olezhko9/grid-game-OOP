@@ -11,20 +11,20 @@ enum CellType {
 
 class Cell : public GameObject {
 private:
-    GameObject *_object = nullptr;
+    int _row;
+    int _col;
+
     CellType _cellType;
 public:
-    explicit Cell(CellType cellType = GROUND);
+    Cell();
+
+    explicit Cell(int row, int col, const sf::Texture *texture, CellType cellType);
 
     void init() override;
 
     void render(sf::RenderWindow *) override;
 
     void update(float) override;
-
-    GameObject *getObject() const;
-
-    void setObject(GameObject *element);
 
     CellType getCellType() const;
 };

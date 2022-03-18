@@ -2,8 +2,6 @@
 #include "board.h"
 #include "utils/Vector2d.h"
 
-#define CELL_SIZE 50
-
 Board::Board(int r, int c) {
     _rows = r;
     _cols = c;
@@ -27,33 +25,31 @@ Cell *Board::getCellAt(int row, int col) {
 }
 
 void Board::init() {
-    Vector2d entrancePos = Vector2d::getRandom(_rows - 2, _rows);
-    Vector2d exitPos = Vector2d::getRandom(0, 2);
+    this->entryPosition = Vector2d::getRandom(0, _cols / 2, 0, _rows / 2);
+    this->exitPosition = Vector2d::getRandom(_cols / 2, _cols, _rows / 2, _rows);
 
-    _grid = new sf::RectangleShape *[_rows];
+    // TODO: правильнее получать ссылку на текстуру извне
+    auto *textureGrass = new sf::Texture;
+    if (!textureGrass->loadFromFile("/home/olezhko/CLionProjects/game/assets/img/grass.png")) return;
+
+    auto *textureLightEarth = new sf::Texture;
+    if (!textureLightEarth->loadFromFile("/home/olezhko/CLionProjects/game/assets/img/light_earth.png")) return;
+
+    auto *texturePurple = new sf::Texture;
+    if (!texturePurple->loadFromFile("/home/olezhko/CLionProjects/game/assets/img/purple.png")) return;
+
     for (int i = 0; i < _rows; i++) {
         _cells[i] = new Cell[_cols];
-        _grid[i] = new sf::RectangleShape[_cols];
         for (int j = 0; j < _cols; j++) {
-            CellType cellType = CellType::GROUND;
-            if (i == entrancePos.x && j == entrancePos.y) {
-                cellType = CellType::ENTRANCE;
-            } else if (i == exitPos.x && j == exitPos.y) {
-                cellType = CellType::EXIT;
-            }
-            _cells[i][j] = Cell(cellType);
-
-            _grid[i][j] = sf::RectangleShape();
-            _grid[i][j].setSize(sf::Vector2f{CELL_SIZE, CELL_SIZE});
-            if (cellType == CellType::ENTRANCE) {
-                _grid[i][j].setFillColor(sf::Color::Cyan);
-            } else if (cellType == CellType::EXIT) {
-                _grid[i][j].setFillColor(sf::Color::Magenta);
+            if (j == entryPosition.x && i == entryPosition.y) {
+                _cells[i][j] = Cell(i, j, textureLightEarth, CellType::ENTRANCE);
+            } else if (j == exitPosition.x && i == exitPosition.y) {
+                _cells[i][j] = Cell(i, j, texturePurple, CellType::EXIT);
             } else {
-                _grid[i][j].setOutlineColor(sf::Color::Blue);
+                _cells[i][j] = Cell(i, j, textureGrass, CellType::GROUND);
             }
-            _grid[i][j].setOutlineThickness(2.0f);
-            _grid[i][j].setPosition(j * CELL_SIZE + 5.0f, i * CELL_SIZE + 5.0f);
+
+            _cells[i][j].init();
         }
     }
 }
@@ -61,11 +57,19 @@ void Board::init() {
 void Board::render(sf::RenderWindow *window) {
     for (int i = 0; i < _rows; i++) {
         for (int j = 0; j < _cols; j++) {
-            window->draw(_grid[i][j]);
+            window->draw(_cells[i][j].getSprite());
         }
     }
 }
 
 void Board::update(float) {
 
+}
+
+const Vector2d &Board::getEntryPosition() const {
+    return entryPosition;
+}
+
+const Vector2d &Board::getExitPosition() const {
+    return exitPosition;
 }
