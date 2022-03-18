@@ -1,7 +1,6 @@
 #ifndef GAME_DEFINITIONS_H
 #define GAME_DEFINITIONS_H
 
-#define CELL_SIZE 50
-#define CELL_BOARD_WIDTH 2
+#define TILE_SIZE 60
 
 #endif //GAME_DEFINITIONS_H

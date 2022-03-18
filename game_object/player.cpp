@@ -6,8 +6,8 @@ Player::Player(const sf::Texture &texture) {
 
 void Player::init() {
     sf::Vector2f scale(
-            CELL_SIZE / (float) _sprite.getTexture()->getSize().x,
-            CELL_SIZE / (float) _sprite.getTexture()->getSize().y
+            TILE_SIZE / (float) _sprite.getTexture()->getSize().x,
+            TILE_SIZE / (float) _sprite.getTexture()->getSize().y
     );
     _sprite.setScale(scale);
 }
@@ -17,5 +17,5 @@ void Player::render(sf::RenderWindow *window) {
 }
 
 void Player::update(float dt) {
-    _sprite.setPosition(_position.x * CELL_SIZE, _position.y * CELL_SIZE);
+    _sprite.setPosition(_position.x * TILE_SIZE, _position.y * TILE_SIZE);
 }

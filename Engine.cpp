@@ -61,7 +61,7 @@ int Engine::start() {
 //        std::cout << player->getPosition().x << ", " << player->getPosition().y << std::endl;
         GameObjectsManager::getInstance().update(dtSeconds);
 
-        if (board->getCellAt(player->getPosition().y, player->getPosition().x)->getCellType() == CellType::EXIT) {
+        if (board->getTileAt(player->getPosition().y, player->getPosition().x)->getTileType() == TileType::EXIT) {
             window.close();
         }
 

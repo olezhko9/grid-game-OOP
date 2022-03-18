@@ -1,13 +1,13 @@
 #ifndef GAME_BOARD_H
 #define GAME_BOARD_H
 
-#include "cell.h"
+#include "Tile.h"
 
 class Board : public GameObject {
 private:
     int _rows;
     int _cols;
-    Cell **_cells;
+    Tile **_tiles;
 
     Vector2d entryPosition;
     Vector2d exitPosition;
@@ -28,9 +28,9 @@ public:
 
     void update(float) override;
 
-    Cell **getCells() const;
+    Tile **getTiles() const;
 
-    Cell *getCellAt(int row, int col);
+    Tile *getTileAt(int row, int col);
 
     int getRows() const;
 
