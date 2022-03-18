@@ -1,6 +1,6 @@
 #include "Board.h"
 #include "utils/Vector2d.h"
-#include "ResourcesManager.h"
+#include "managers/ResourcesManager.h"
 
 Board::Board(int r, int c) {
     _rows = r;

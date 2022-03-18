@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 #include "SFML/Graphics.hpp"
-#include "definitions.h"
+#include "../definitions.h"
 
 class ResourcesManager {
 public:

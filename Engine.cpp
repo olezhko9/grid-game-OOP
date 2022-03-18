@@ -2,10 +2,10 @@
 #include <SFML/Graphics.hpp>
 
 #include "Engine.h"
-#include "GameObjectsManager.h"
+#include "managers/GameObjectsManager.h"
 #include "game_object/player/Player.h"
 #include "Board.h"
-#include "ResourcesManager.h"
+#include "managers/ResourcesManager.h"
 
 Engine::Engine(unsigned int maxFps) {
     _maxFPS = maxFps;
