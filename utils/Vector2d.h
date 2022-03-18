@@ -1,7 +1,7 @@
 #ifndef GAME_VECTOR2D_H
 #define GAME_VECTOR2D_H
 
-#include "random.h"
+#include "Random.h"
 #include "../definitions.h"
 
 class Vector2d {

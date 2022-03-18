@@ -3,7 +3,7 @@
 
 #include <map>
 #include <SFML/Graphics.hpp>
-#include "GameObject.h"
+#include "game_object/GameObject.h"
 
 class GameObjectsManager {
 public:

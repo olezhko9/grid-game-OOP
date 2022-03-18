@@ -1,7 +1,7 @@
 #ifndef GAME_PLAYER_H
 #define GAME_PLAYER_H
 
-#include "GameObject.h"
+#include "../GameObject.h"
 
 class Player : public GameObject {
 public:
@@ -9,7 +9,7 @@ public:
 
     void init() override;
 
-    void update(float dt);
+    void update(float dt) override;
 
     void render(sf::RenderWindow *window) override;
 

@@ -1,4 +1,4 @@
-#include "player.h"
+#include "Player.h"
 
 Player::Player(const sf::Texture &texture) {
     _sprite.setTexture(texture);

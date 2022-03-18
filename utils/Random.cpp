@@ -1,6 +1,6 @@
 #include <ctime>
 #include <cstdlib>
-#include "random.h"
+#include "Random.h"
 
 Random* Random::_instance = nullptr;
 

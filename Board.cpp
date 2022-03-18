@@ -1,4 +1,4 @@
-#include "board.h"
+#include "Board.h"
 #include "utils/Vector2d.h"
 #include "ResourcesManager.h"
 

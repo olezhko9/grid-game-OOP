@@ -2,9 +2,9 @@
 #include <SFML/Graphics.hpp>
 
 #include "Engine.h"
-#include "game_object/GameObjectsManager.h"
-#include "game_object/player.h"
-#include "board.h"
+#include "GameObjectsManager.h"
+#include "game_object/player/Player.h"
+#include "Board.h"
 #include "ResourcesManager.h"
 
 Engine::Engine(unsigned int maxFps) {
