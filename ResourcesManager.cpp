@@ -1,16 +1,8 @@
 #include "ResourcesManager.h"
 
-ResourcesManager *ResourcesManager::_instance = nullptr;
+SingletonBody(ResourcesManager)
 
-ResourcesManager *ResourcesManager::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new ResourcesManager();
-    }
-
-    return _instance;
-}
-
-ResourcesManager *ResourcesManager::loadTexture(std::string &filepath) {
+void ResourcesManager::loadTexture(std::string &filepath) {
     std::unique_ptr<sf::Texture> texture = std::make_unique<sf::Texture>();
 
     if (!texture->loadFromFile(filepath)) {
