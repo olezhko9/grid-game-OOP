@@ -18,7 +18,7 @@ private:
 public:
     Tile();
 
-    explicit Tile(int row, int col, const sf::Texture *texture, TileType tileType);
+    explicit Tile(int row, int col, const sf::Texture &texture, TileType tileType);
 
     void init() override;
 

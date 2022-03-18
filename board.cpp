@@ -1,6 +1,6 @@
-#include <iostream>
 #include "board.h"
 #include "utils/Vector2d.h"
+#include "ResourcesManager.h"
 
 Board::Board(int r, int c) {
     _rows = r;
@@ -28,25 +28,15 @@ void Board::init() {
     this->entryPosition = Vector2d::getRandom(0, _cols / 2, 0, _rows / 2);
     this->exitPosition = Vector2d::getRandom(_cols / 2, _cols, _rows / 2, _rows);
 
-    // TODO: правильнее получать ссылку на текстуру извне
-    auto *textureGrass = new sf::Texture;
-    if (!textureGrass->loadFromFile("/home/olezhko/CLionProjects/game/assets/img/grass.png")) return;
-
-    auto *textureLightEarth = new sf::Texture;
-    if (!textureLightEarth->loadFromFile("/home/olezhko/CLionProjects/game/assets/img/light_earth.png")) return;
-
-    auto *texturePurple = new sf::Texture;
-    if (!texturePurple->loadFromFile("/home/olezhko/CLionProjects/game/assets/img/purple.png")) return;
-
     for (int i = 0; i < _rows; i++) {
         _tiles[i] = new Tile[_cols];
         for (int j = 0; j < _cols; j++) {
             if (j == entryPosition.x && i == entryPosition.y) {
-                _tiles[i][j] = Tile(i, j, textureLightEarth, TileType::ENTRANCE);
+                _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/light_earth.png"), TileType::ENTRANCE);
             } else if (j == exitPosition.x && i == exitPosition.y) {
-                _tiles[i][j] = Tile(i, j, texturePurple, TileType::EXIT);
+                _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/purple.png"), TileType::EXIT);
             } else {
-                _tiles[i][j] = Tile(i, j, textureGrass, TileType::GROUND);
+                _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/grass.png"), TileType::GROUND);
             }
 
             _tiles[i][j].init();

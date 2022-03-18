@@ -5,6 +5,7 @@
 #include "game_object/GameObjectsManager.h"
 #include "game_object/player.h"
 #include "board.h"
+#include "ResourcesManager.h"
 
 Engine::Engine(unsigned int maxFps) {
     _maxFPS = maxFps;
@@ -20,9 +21,17 @@ int Engine::start() {
 
     auto *board = new Board(15, 30);
 
-    sf::Texture playerTexture;
-    if (!playerTexture.loadFromFile("/home/olezhko/CLionProjects/game/assets/img/knight.png")) return EXIT_FAILURE;
-    auto *player = new Player(playerTexture);
+    std::vector<std::string> textures = {
+        "assets/img/knight.png",
+        "assets/img/grass.png",
+        "assets/img/light_earth.png",
+        "assets/img/purple.png"
+    };
+    for (auto texture : textures) {
+        ResourcesManager::getInstance()->loadTexture(texture);
+    }
+
+    auto *player = new Player(ResourcesManager::getInstance()->getTexture("assets/img/knight.png"));
 
     GameObjectsManager::getInstance().addObject("board", board);
     GameObjectsManager::getInstance().addObject("player", player);

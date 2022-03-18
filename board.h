@@ -11,8 +11,6 @@ private:
 
     Vector2d entryPosition;
     Vector2d exitPosition;
-
-    sf::RectangleShape **_grid;
 public:
     Board(int rows, int cols);
 
