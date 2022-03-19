@@ -7,10 +7,9 @@
 
 class GameObjectsManager {
 public:
-    static GameObjectsManager &getInstance();
+SingletonHeader(GameObjectsManager)
 
-    ~GameObjectsManager();
-
+public:
     void addObject(const std::string &name, GameObject *gameObject);
 
     bool removeObject(const std::string &name);
@@ -25,8 +24,6 @@ public:
 
 private:
     std::map<std::string, GameObject *> _gameObjects;
-
-    GameObjectsManager() = default;
 };
 
 #endif //GAME_GAMEOBJECTSMANAGER_H

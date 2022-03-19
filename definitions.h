@@ -9,21 +9,19 @@ public:                                             \
     ClassName(ClassName &) = delete;                \
     void operator=(const ClassName &) = delete;     \
     static ClassName* getInstance();                \
-    static void Create();                           \
-    static void Delete();                           \
 private:                                            \
-    ClassName() = default;                          \
+    ClassName();                                    \
     ~ClassName();                                   \
-    static ClassName* _instance;
+    static ClassName* _instance;                    \
 
 
 #define SingletonBody(ClassName)                    \
 ClassName* ClassName::_instance = nullptr;          \
-ResourcesManager *ResourcesManager::getInstance() { \
+ClassName *ClassName::getInstance() {               \
     if (_instance == nullptr) {                     \
-        _instance = new ResourcesManager();         \
+        _instance = new ClassName();                \
     }                                               \
     return _instance;                               \
-}
+}                                                   \
 
 #endif //GAME_DEFINITIONS_H

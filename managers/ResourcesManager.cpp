@@ -2,6 +2,8 @@
 
 SingletonBody(ResourcesManager)
 
+ResourcesManager::ResourcesManager() = default;
+
 void ResourcesManager::loadTexture(std::string &filepath) {
     std::unique_ptr<sf::Texture> texture = std::make_unique<sf::Texture>();
 

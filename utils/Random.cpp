@@ -2,17 +2,10 @@
 #include <cstdlib>
 #include "Random.h"
 
-Random* Random::_instance = nullptr;
+SingletonBody(Random)
 
 Random::Random() {
     srand(time(NULL));
-}
-
-Random *Random::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new Random();
-    }
-    return _instance;
 }
 
 int Random::randomInt(int max) {

@@ -2,10 +2,9 @@
 
 #include "GameObjectsManager.h"
 
-GameObjectsManager &GameObjectsManager::getInstance() {
-    static GameObjectsManager instance;
-    return instance;
-}
+SingletonBody(GameObjectsManager)
+
+GameObjectsManager::GameObjectsManager() = default;
 
 GameObjectsManager::~GameObjectsManager() {
     auto itr = _gameObjects.begin();

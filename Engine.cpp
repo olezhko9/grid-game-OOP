@@ -33,10 +33,10 @@ int Engine::start() {
 
     auto *player = new Player(ResourcesManager::getInstance()->getTexture("assets/img/knight.png"));
 
-    GameObjectsManager::getInstance().addObject("board", board);
-    GameObjectsManager::getInstance().addObject("player", player);
+    GameObjectsManager::getInstance()->addObject("board", board);
+    GameObjectsManager::getInstance()->addObject("player", player);
 
-    GameObjectsManager::getInstance().init();
+    GameObjectsManager::getInstance()->init();
     player->setPosition(board->getEntryPosition());
 
     sf::Clock clock;
@@ -68,7 +68,7 @@ int Engine::start() {
         }
 
 //        std::cout << player->getPosition().x << ", " << player->getPosition().y << std::endl;
-        GameObjectsManager::getInstance().update(dtSeconds);
+        GameObjectsManager::getInstance()->update(dtSeconds);
 
         if (board->getTileAt(player->getPosition().y, player->getPosition().x)->getTileType() == TileType::EXIT) {
             window.close();
@@ -76,7 +76,7 @@ int Engine::start() {
 
         window.clear();
 
-        GameObjectsManager::getInstance().render(&window);
+        GameObjectsManager::getInstance()->render(&window);
 
         window.display();
     }

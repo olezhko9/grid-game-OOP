@@ -1,19 +1,15 @@
 #ifndef GAME_RANDOM_H
 #define GAME_RANDOM_H
 
+#include "../definitions.h"
+
 class Random {
-private:
-    static Random *_instance;
+public:
+SingletonHeader(Random)
 
 public:
-    static Random* getInstance();
-
-    Random();
-
-    Random (Random const&) = delete;
-    void operator=(Random const&) = delete;
-
     int randomInt(int max);
+
     int randomInt(int min, int max);
 };
 
