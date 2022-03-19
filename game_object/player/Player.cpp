@@ -1,9 +1,5 @@
 #include "Player.h"
 
-Player::Player(const sf::Texture &texture) {
-    _sprite.setTexture(texture);
-}
-
 void Player::init() {
     sf::Vector2f scale(
             TILE_SIZE / (float) _sprite.getTexture()->getSize().x,
@@ -18,4 +14,8 @@ void Player::render(sf::RenderWindow *window) {
 
 void Player::update(float dt) {
     _sprite.setPosition(_position.x * TILE_SIZE, _position.y * TILE_SIZE);
+}
+
+int Player::getHp() const {
+    return _hp;
 }

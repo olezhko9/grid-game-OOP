@@ -24,4 +24,6 @@ ClassName *ClassName::getInstance() {               \
     return _instance;                               \
 }                                                   \
 
+#define SafeDelete(p){ if(p){ delete (p); (p) = NULL; } }
+
 #endif //GAME_DEFINITIONS_H

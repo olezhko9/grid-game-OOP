@@ -16,6 +16,8 @@ public:
 
     GameObject *getObject(const std::string &name);
 
+    const std::vector<std::pair<std::string, GameObject *>> &getGameObjects() const;
+
     void init();
 
     void update(float dt);
@@ -23,7 +25,7 @@ public:
     void render(sf::RenderWindow *window);
 
 private:
-    std::map<std::string, GameObject *> _gameObjects;
+    std::vector<std::pair<std::string, GameObject *>> _gameObjects;
 };
 
 #endif //GAME_GAMEOBJECTSMANAGER_H

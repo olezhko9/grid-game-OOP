@@ -5,16 +5,21 @@
 
 class Player : public GameObject {
 public:
-    Player(const sf::Texture&);
-
     void init() override;
 
     void update(float dt) override;
 
     void render(sf::RenderWindow *window) override;
 
+    int addHp(int hp) {
+        _hp += hp;
+        return _hp;
+    }
+
+    int getHp() const;
+
 private:
-    sf::Sprite _sprite;
+    int _hp = 10; // здоровье
 };
 
 #endif //GAME_PLAYER_H
