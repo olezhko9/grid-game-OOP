@@ -5,7 +5,9 @@
 
 class Item : public GameObject {
 public:
-    void init() override {};
+    Item();
+
+    void init() override;
 
     void update(float dt) override;
 

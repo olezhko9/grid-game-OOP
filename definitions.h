@@ -1,7 +1,7 @@
 #ifndef GAME_DEFINITIONS_H
 #define GAME_DEFINITIONS_H
 
-#define TILE_SIZE 60
+#define TILE_SIZE 64
 
 
 #define SingletonHeader(ClassName)                  \

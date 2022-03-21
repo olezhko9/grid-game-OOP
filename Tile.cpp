@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile() {}
+Tile::Tile() : GameObject("tile") {}
 
 Tile::Tile(int row, int col, const sf::Texture &texture, TileType tileType) {
     _row = row;

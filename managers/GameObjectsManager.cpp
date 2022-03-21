@@ -13,7 +13,7 @@ GameObjectsManager::~GameObjectsManager() {
 }
 
 void GameObjectsManager::addObject(const std::string &name, GameObject *gameObject) {
-    _gameObjects.push_back(std::make_pair(name, gameObject));
+    _gameObjects.emplace_back(name, gameObject);
 }
 
 bool GameObjectsManager::removeObject(const std::string &name) {

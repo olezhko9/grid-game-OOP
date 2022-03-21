@@ -25,6 +25,10 @@ void GameObject::setTexture(const sf::Texture &texture) {
     _sprite = sf::Sprite(_texture);
 }
 
-bool GameObject::isAlive() const {
-    return _isAlive;
+const std::string &GameObject::getTag() const {
+    return _tag;
+}
+
+void GameObject::setTag(const std::string &tag) {
+    _tag = tag;
 }

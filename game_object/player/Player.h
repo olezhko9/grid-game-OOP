@@ -5,16 +5,15 @@
 
 class Player : public GameObject {
 public:
+    Player();
+
     void init() override;
 
     void update(float dt) override;
 
     void render(sf::RenderWindow *window) override;
 
-    int addHp(int hp) {
-        _hp += hp;
-        return _hp;
-    }
+    int addHp(int hp);
 
     int getHp() const;
 

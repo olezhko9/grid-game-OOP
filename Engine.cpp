@@ -22,19 +22,19 @@ int Engine::start() {
     window.setFramerateLimit(_maxFPS);
 
     // TODO: не создавать Board как игровой объект, а создавать плитки
-    auto *board = new Board(15, 30);
+    auto *board = new Board(15, 28);
     GameObjectsManager::getInstance()->addObject("board", board);
 
     std::vector<std::string> textures = {
-        "assets/img/knight.png",
-        "assets/img/grass.png",
-        "assets/img/light_earth.png",
-        "assets/img/purple.png",
-        "assets/img/stone.png",
-        "assets/img/timber.png",
-        "assets/img/heart.png",
+            "assets/img/knight.png",
+            "assets/img/grass.png",
+            "assets/img/light_earth.png",
+            "assets/img/purple.png",
+            "assets/img/stone.png",
+            "assets/img/timber.png",
+            "assets/img/heart.png",
     };
-    for (auto texture : textures) {
+    for (auto &texture: textures) {
         ResourcesManager::getInstance()->loadTexture(texture);
     }
 
@@ -42,16 +42,19 @@ int Engine::start() {
     font.loadFromFile("assets/fonts/arial.ttf");
 
     auto *stone = new Item();
+    stone->setTag("stone");
     stone->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/stone.png"));
     stone->setPosition(Vector2d::getRandom(1, 3));
     GameObjectsManager::getInstance()->addObject("stone", stone);
 
     auto *timber = new Item();
-    timber->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/heart.png"));
+    timber->setTag("timber");
+    timber->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/timber.png"));
     timber->setPosition(Vector2d::getRandom(4, 7));
     GameObjectsManager::getInstance()->addObject("timber", timber);
 
-    auto player = new Player();
+    auto *player = new Player();
+    player->setTag("player");
     player->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/knight.png"));
     GameObjectsManager::getInstance()->addObject("player", player);
 
@@ -86,29 +89,36 @@ int Engine::start() {
             }
         }
 
-
         // проверка коллизий
-        for (auto &object1 : GameObjectsManager::getInstance()->getGameObjects()) {
-            for (auto &object2 : GameObjectsManager::getInstance()->getGameObjects()) {
+        for (auto &object1: GameObjectsManager::getInstance()->getGameObjects()) {
+            for (auto &object2: GameObjectsManager::getInstance()->getGameObjects()) {
                 if (object1 == object2) continue;
 
                 Vector2d pos1 = object1.second->getPosition();
                 Vector2d pos2 = object2.second->getPosition();
 
-                if (pos1.x == pos2.x && pos1.y == pos2.y) {
-                    std::cout << "Объекты " << object1.first << " и " << object2.first << " на одной клетке" << std::endl;
-                    if (object1.second == player && object2.second == timber) {
-                        player->addHp(10);
-                        GameObjectsManager::getInstance()->removeObject("player");
+                if (pos1 == pos2) {
+                    std::cout << "Объекты " << object1.first << " и " << object2.first << " на одной клетке\n";
+                    if (object1.second->getTag() == "player") {
+                        if (object2.second->getTag() == "timber") {
+                            player->addHp(10);
+                        } else if (object2.second->getTag() == "stone") {
+                            player->addHp(-10);
+                        }
+                        GameObjectsManager::getInstance()->removeObject(object2.first);
                     }
                 }
             }
         }
 
-        std::cout << player->getHp() << std::endl;
         GameObjectsManager::getInstance()->update(dtSeconds);
 
+        // если игрок дошел до выхода
         if (board->getTileAt(player->getPosition().y, player->getPosition().x)->getTileType() == TileType::EXIT) {
+            window.close();
+        }
+
+        if (player->getHp() == 0) {
             window.close();
         }
 
@@ -116,13 +126,12 @@ int Engine::start() {
 
         GameObjectsManager::getInstance()->render(&window);
 
-        if (player->isAlive()) {
-            sf::Text hpText("Health: " + std::to_string(player->getHp()), font);
-            hpText.setCharacterSize(24);
-            hpText.setFillColor(sf::Color::Red);
-            hpText.setPosition(0.f, 0.f);
-            window.draw(hpText);
-        }
+        // выводим здоровье игрока
+        sf::Text hpText("Health: " + std::to_string(player->getHp()), font);
+        hpText.setCharacterSize(24);
+        hpText.setFillColor(sf::Color::Red);
+        hpText.setPosition(0.f, 0.f);
+        window.draw(hpText);
 
         window.display();
     }

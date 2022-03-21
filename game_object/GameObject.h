@@ -4,12 +4,13 @@
 #include "SFML/Graphics.hpp"
 #include "../utils/Vector2d.h"
 #include <iostream>
+#include <utility>
 
 class GameObject {
 public:
     GameObject() = default;
 
-    GameObject(std::string &name) : _name(name) {};
+    explicit GameObject(std::string tag) : _tag(std::move(tag)) {};
 
     virtual ~GameObject() = default;
 
@@ -31,17 +32,17 @@ public:
 
     void setTexture(const sf::Texture &texture);
 
-    bool isAlive() const;
+    void setTag(const std::string &tag);
+
+    const std::string &getTag() const;
 
 protected:
-    std::string _name;
+    std::string _tag;
 
     Vector2d _position = {-1, -1}; // положение объекта в индексах на поле
 
     sf::Sprite _sprite;
     sf::Texture _texture;
-
-    bool _isAlive = true;
 };
 
 #endif //GAME_GAMEOBJECT_H

@@ -27,3 +27,7 @@ Vector2d Vector2d::toGlobal() {
             this->y * TILE_SIZE
     );
 }
+
+bool Vector2d::operator==(Vector2d &v) const {
+    return this->x == v.x && this->y == v.y;
+}

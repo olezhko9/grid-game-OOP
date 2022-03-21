@@ -18,6 +18,8 @@ public:
     static Vector2d getRandom(int minX, int maxX, int minY, int maxY);
 
     Vector2d toGlobal();
+
+    bool operator==(Vector2d &) const;
 };
 
 #endif //GAME_VECTOR2D_H
