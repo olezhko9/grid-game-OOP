@@ -11,6 +11,8 @@ public:
     int randomInt(int max);
 
     int randomInt(int min, int max);
+
+    float random();
 };
 
 #endif //GAME_RANDOM_H

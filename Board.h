@@ -30,6 +30,8 @@ public:
 
     Tile *getTileAt(int row, int col);
 
+    Tile *getTileAt(Vector2d &);
+
     int getRows() const;
 
     int getCols() const;

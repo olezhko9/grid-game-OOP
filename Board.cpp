@@ -36,7 +36,12 @@ void Board::init() {
             } else if (j == exitPosition.x && i == exitPosition.y) {
                 _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/purple.png"), TileType::EXIT);
             } else {
-                _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/grass.png"), TileType::GROUND);
+                // с вероятность 15% плитка будет непроходимой (вода)
+                if (Random::getInstance()->random() < 0.15) {
+                    _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/water.png"), TileType::WATER);
+                } else {
+                    _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/grass.png"), TileType::GROUND);
+                }
             }
 
             _tiles[i][j].init();
@@ -62,4 +67,8 @@ const Vector2d &Board::getEntryPosition() const {
 
 const Vector2d &Board::getExitPosition() const {
     return exitPosition;
+}
+
+Tile *Board::getTileAt(Vector2d &vector) {
+    return &_tiles[vector.y][vector.x];
 }

@@ -33,6 +33,7 @@ int Engine::start() {
             "assets/img/stone.png",
             "assets/img/timber.png",
             "assets/img/heart.png",
+            "assets/img/water.png",
     };
     for (auto &texture: textures) {
         ResourcesManager::getInstance()->loadTexture(texture);
@@ -72,19 +73,31 @@ int Engine::start() {
             if (event.type == sf::Event::Closed)
                 window.close();
             else if (event.type == sf::Event::KeyPressed) {
+                Vector2d newPosition(-1, -1);
                 switch (event.key.code) {
                     case sf::Keyboard::Up:
-                        player->setPosition(Vector2d{player->getPosition().x, player->getPosition().y - 1});
+                        newPosition = {player->getPosition().x, player->getPosition().y - 1};
                         break;
                     case sf::Keyboard::Right:
-                        player->setPosition(Vector2d{player->getPosition().x + 1, player->getPosition().y});
+                        newPosition = {player->getPosition().x + 1, player->getPosition().y};
                         break;
                     case sf::Keyboard::Down:
-                        player->setPosition(Vector2d{player->getPosition().x, player->getPosition().y + 1});
+                        newPosition = {player->getPosition().x, player->getPosition().y + 1};
                         break;
                     case sf::Keyboard::Left:
-                        player->setPosition(Vector2d{player->getPosition().x - 1, player->getPosition().y});
+                        newPosition = {player->getPosition().x - 1, player->getPosition().y};
                         break;
+                }
+
+                if (newPosition.x != -1 && newPosition.y != -1 &&
+                    newPosition.x >= 0 &&
+                    newPosition.x < board->getCols() &&
+                    newPosition.y >= 0 &&
+                    newPosition.y < board->getRows() &&
+                    board->getTileAt(newPosition)->getTileType() != TileType::WATER
+                        ) {
+                    player->setPosition(newPosition);
+                    std::cout << "Tile: " << board->getTileAt(newPosition)->getTileType() << std::endl;
                 }
             }
         }
