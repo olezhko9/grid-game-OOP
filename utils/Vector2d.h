@@ -20,6 +20,18 @@ public:
     Vector2d toGlobal();
 
     bool operator==(Vector2d &) const;
+
+    Vector2d operator+(const Vector2d &) const;
+
+    Vector2d operator-(const Vector2d &) const;
+
+    static Vector2d Up();
+
+    static Vector2d Right();
+
+    static Vector2d Down();
+
+    static Vector2d Left();
 };
 
 #endif //GAME_VECTOR2D_H

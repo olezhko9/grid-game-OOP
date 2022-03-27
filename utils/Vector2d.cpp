@@ -28,6 +28,30 @@ Vector2d Vector2d::toGlobal() {
     );
 }
 
-bool Vector2d::operator==(Vector2d &v) const {
-    return this->x == v.x && this->y == v.y;
+bool Vector2d::operator==(Vector2d &other) const {
+    return this->x == other.x && this->y == other.y;
+}
+
+Vector2d Vector2d::operator+(const Vector2d &other) const {
+    return {this->x + other.x, this->y + other.y};
+}
+
+Vector2d Vector2d::operator-(const Vector2d &other) const {
+    return {this->x - other.x, this->y - other.y};
+}
+
+Vector2d Vector2d::Up() {
+    return {0, -1};
+}
+
+Vector2d Vector2d::Right() {
+    return {1, 0};
+}
+
+Vector2d Vector2d::Down() {
+    return {0, 1};
+}
+
+Vector2d Vector2d::Left() {
+    return {-1, 0};
 }
