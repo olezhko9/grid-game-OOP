@@ -14,7 +14,7 @@
 
 #define ENEMIES_COUNT 5
 
-auto rng = std::default_random_engine {};
+auto rng = std::default_random_engine{};
 
 Engine::Engine(unsigned int maxFps) {
     _maxFPS = maxFps;
@@ -30,7 +30,7 @@ int Engine::start() {
 
     // TODO: не создавать Board как игровой объект, а создавать плитки
     auto *board = new Board(15, 28);
-    GameObjectsManager::getInstance()->addObject("board", board);
+    GameObjectsManager::getInstance()->addObject(board);
 
     std::vector<std::string> textures = {
             "assets/img/knight.png",
@@ -54,19 +54,19 @@ int Engine::start() {
     auto *stone = new Item();
     stone->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/stone.png"));
     stone->setPosition(Vector2d::getRandom(1, 3));
-    GameObjectsManager::getInstance()->addObject("item", stone);
+    GameObjectsManager::getInstance()->addObject(stone);
 
     for (int i = 0; i < 3; ++i) {
         auto *timber = new Item();
         timber->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/timber.png"));
         timber->setPosition(Vector2d::getRandom(0, board->getCols(), 0, board->getRows()));
-        GameObjectsManager::getInstance()->addObject("item", timber);
+        GameObjectsManager::getInstance()->addObject(timber);
     }
 
     auto *player = new Player();
     player->setTag("player");
     player->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/knight.png"));
-    GameObjectsManager::getInstance()->addObject("player", player);
+    GameObjectsManager::getInstance()->addObject(player);
 
     for (int i = 0; i < ENEMIES_COUNT; i++) {
         auto *enemy = new Enemy();
@@ -74,7 +74,7 @@ int Engine::start() {
         enemy->setPosition(
                 Vector2d::getRandom(board->getCols() / 2, board->getCols(), board->getRows() / 2, board->getRows())
         );
-        GameObjectsManager::getInstance()->addObject("enemy", enemy);
+        GameObjectsManager::getInstance()->addObject(enemy);
     }
 
     GameObjectsManager::getInstance()->init();
@@ -121,7 +121,7 @@ int Engine::start() {
         if (playerMoved && pcMoveClock.getElapsedTime().asSeconds() > aiMoveDelay) {
             // ходы противников
             for (auto &enemy: GameObjectsManager::getInstance()->getGameObjects("enemy")) {
-                Vector2d enemyPosition = enemy.second->getPosition();
+                Vector2d enemyPosition = enemy->getPosition();
                 Vector2d diff = player->getPosition() - enemyPosition;
                 int moveX = diff.x / std::abs(diff.x);
                 int moveY = diff.y / std::abs(diff.y);
@@ -150,8 +150,8 @@ int Engine::start() {
                 }
 
                 std::cout << enemyPosition.x << ", " << enemyPosition.y << " --> " << newEnemyPosition.x << ", "
-                          << newEnemyPosition.y << ";  " <<  diff.x << ", " << diff.y << std::endl;
-                enemy.second->setPosition(newEnemyPosition);
+                          << newEnemyPosition.y << ";  " << diff.x << ", " << diff.y << std::endl;
+                enemy->setPosition(newEnemyPosition);
             }
             std::cout << "-------------------------" << std::endl;
             playerMoved = false;
@@ -160,20 +160,20 @@ int Engine::start() {
         // проверка коллизий
         for (auto &object1: GameObjectsManager::getInstance()->getGameObjects()) {
             for (auto &object2: GameObjectsManager::getInstance()->getGameObjects()) {
-                if (object1 == object2 || object1.second == nullptr || object2.second == nullptr) continue;
+                if (object1 == object2 || object1 == nullptr || object2 == nullptr) continue;
 
-                Vector2d pos1 = object1.second->getPosition();
-                Vector2d pos2 = object2.second->getPosition();
+                Vector2d pos1 = object1->getPosition();
+                Vector2d pos2 = object2->getPosition();
 
                 if (pos1 == pos2) {
-                    std::cout << "Объекты " << object1.first << " и " << object2.first << " на одной клетке\n";
-                    if (object1.second->getTag() == "player") {
-                        if (object2.second->getTag() == "item") {
+                    std::cout << "Объекты " << object1->getTag() << " и " << object2->getTag() << " на одной клетке\n";
+                    if (object1->getTag() == "player") {
+                        if (object2->getTag() == "item") {
                             player->addHp(10);
-                        } else if (object2.second->getTag() == "enemy") {
+                        } else if (object2->getTag() == "enemy") {
                             player->addHp(-10);
                         }
-                        GameObjectsManager::getInstance()->removeObject(object2.second);
+                        GameObjectsManager::getInstance()->removeObject(object2);
                     }
                 }
             }
@@ -199,8 +199,8 @@ int Engine::start() {
         // выводим здоровье игрока
         std::stringstream ss;
         ss << "Health: " << player->getHp() << "\n"
-            << "Enemies: " << GameObjectsManager::getInstance()->getGameObjects("enemy").size() << "\n"
-            << "Items: " << GameObjectsManager::getInstance()->getGameObjects("item").size();
+           << "Enemies: " << GameObjectsManager::getInstance()->getGameObjects("enemy").size() << "\n"
+           << "Items: " << GameObjectsManager::getInstance()->getGameObjects("item").size();
         sf::Text hpText(ss.str(), font);
         hpText.setCharacterSize(24);
         hpText.setFillColor(sf::Color::Red);

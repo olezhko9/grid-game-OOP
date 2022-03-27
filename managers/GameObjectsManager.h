@@ -10,15 +10,15 @@ public:
 SingletonHeader(GameObjectsManager)
 
 public:
-    void addObject(std::string name, GameObject *gameObject);
+    void addObject(GameObject *gameObject);
 
-    bool removeObject(const GameObject*);
+    bool removeObject(const GameObject *);
 
-    GameObject *getObject(const std::string &name);
+    GameObject *getObject(const std::string &tag);
 
-    const std::vector<std::pair<std::string, GameObject *>> &getGameObjects() const;
+    const std::vector<GameObject *> &getGameObjects() const;
 
-    std::vector<std::pair<std::string, GameObject *>> getGameObjects(const std::string name) const;
+    std::vector<GameObject *> getGameObjects(const std::string &tag) const;
 
     void init();
 
@@ -27,7 +27,7 @@ public:
     void render(sf::RenderWindow *window);
 
 private:
-    std::vector<std::pair<std::string, GameObject *>> _gameObjects;
+    std::vector<GameObject *> _gameObjects;
 };
 
 #endif //GAME_GAMEOBJECTSMANAGER_H
