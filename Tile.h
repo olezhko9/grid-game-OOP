@@ -15,7 +15,7 @@ private:
     int _row;
     int _col;
 
-    TileType _tileType;
+    TileType _type;
 public:
     Tile();
 
@@ -27,7 +27,7 @@ public:
 
     void update(float) override;
 
-    TileType getTileType() const;
+    TileType getType() const;
 };
 
 #endif //GAME_TILE_H

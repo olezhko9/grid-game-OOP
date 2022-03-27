@@ -12,13 +12,13 @@ GameObjectsManager::~GameObjectsManager() {
     }
 }
 
-void GameObjectsManager::addObject(const std::string &name, GameObject *gameObject) {
+void GameObjectsManager::addObject(const std::string name, GameObject *gameObject) {
     _gameObjects.emplace_back(name, gameObject);
 }
 
-bool GameObjectsManager::removeObject(const std::string &name) {
+bool GameObjectsManager::removeObject(const GameObject *gameObject) {
     for (auto it = _gameObjects.begin(); it != _gameObjects.end(); ++it) {
-        if (it->first == name) {
+        if (it->second == gameObject) {
             SafeDelete(it->second);
             _gameObjects.erase(it);
             return true;
@@ -58,4 +58,13 @@ void GameObjectsManager::render(sf::RenderWindow *window) {
 
 const std::vector<std::pair<std::string, GameObject *>> &GameObjectsManager::getGameObjects() const {
     return _gameObjects;
+}
+
+std::vector<std::pair<std::string, GameObject *>> GameObjectsManager::getGameObjects(const std::string name) const {
+    std::vector<std::pair<std::string, GameObject *>> objects;
+    std::copy_if(_gameObjects.begin(), _gameObjects.end(),
+                 std::back_inserter(objects),
+                 [&name](auto el) { return el.first == name; }
+    );
+    return objects;
 }

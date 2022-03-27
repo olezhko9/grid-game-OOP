@@ -30,11 +30,13 @@ public:
 
     Tile *getTileAt(int row, int col);
 
-    Tile *getTileAt(Vector2d &);
+    Tile *getTileAt(Vector2d &) const;
 
     int getRows() const;
 
     int getCols() const;
+
+    bool isValidPosition(Vector2d &) const;
 };
 
 #endif //GAME_BOARD_H

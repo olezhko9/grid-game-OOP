@@ -10,13 +10,15 @@ public:
 SingletonHeader(GameObjectsManager)
 
 public:
-    void addObject(const std::string &name, GameObject *gameObject);
+    void addObject(std::string name, GameObject *gameObject);
 
-    bool removeObject(const std::string &name);
+    bool removeObject(const GameObject*);
 
     GameObject *getObject(const std::string &name);
 
     const std::vector<std::pair<std::string, GameObject *>> &getGameObjects() const;
+
+    std::vector<std::pair<std::string, GameObject *>> getGameObjects(const std::string name) const;
 
     void init();
 

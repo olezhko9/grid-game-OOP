@@ -32,15 +32,19 @@ void Board::init() {
         _tiles[i] = new Tile[_cols];
         for (int j = 0; j < _cols; j++) {
             if (j == entryPosition.x && i == entryPosition.y) {
-                _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/light_earth.png"), TileType::ENTRANCE);
+                _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/light_earth.png"),
+                                    TileType::ENTRANCE);
             } else if (j == exitPosition.x && i == exitPosition.y) {
-                _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/purple.png"), TileType::EXIT);
+                _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/purple.png"),
+                                    TileType::EXIT);
             } else {
                 // с вероятность 15% плитка будет непроходимой (вода)
                 if (Random::getInstance()->random() < 0.15) {
-                    _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/water.png"), TileType::WATER);
+                    _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/tree.png"),
+                                        TileType::WATER);
                 } else {
-                    _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/grass.png"), TileType::GROUND);
+                    _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/grass.png"),
+                                        TileType::GROUND);
                 }
             }
 
@@ -69,6 +73,11 @@ const Vector2d &Board::getExitPosition() const {
     return exitPosition;
 }
 
-Tile *Board::getTileAt(Vector2d &vector) {
+Tile *Board::getTileAt(Vector2d &vector) const {
     return &_tiles[vector.y][vector.x];
+}
+
+bool Board::isValidPosition(Vector2d &pos) const {
+    return pos.x >= 0 && pos.x < _cols && pos.y >= 0 && pos.y < _rows &&
+           this->getTileAt(pos)->getType() != TileType::WATER;
 }
