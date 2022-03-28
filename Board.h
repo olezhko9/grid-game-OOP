@@ -3,7 +3,7 @@
 
 #include "Tile.h"
 
-class Board : public GameObject {
+class Board {
 private:
     int _rows;
     int _cols;
@@ -20,11 +20,11 @@ public:
 
     const Vector2d &getExitPosition() const;
 
-    void init() override;
+    void init();
 
-    void render(sf::RenderWindow *) override;
+    void render(sf::RenderWindow *);
 
-    void update(float) override;
+    void update(float);
 
     Tile **getTiles() const;
 
@@ -37,6 +37,8 @@ public:
     int getCols() const;
 
     bool isValidPosition(Vector2d &) const;
+
+    Vector2d getRandomValidPosition(int minX, int maxX, int minY, int maxY) const;
 };
 
 #endif //GAME_BOARD_H

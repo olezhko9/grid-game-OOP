@@ -12,7 +12,7 @@
 #include "game_object/items/Item.h"
 #include "game_object/Enemy.h"
 
-#define ENEMIES_COUNT 5
+#define ENEMIES_COUNT 3
 
 auto rng = std::default_random_engine{};
 
@@ -28,10 +28,6 @@ int Engine::start() {
     sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "SFML window");
     window.setFramerateLimit(_maxFPS);
 
-    // TODO: не создавать Board как игровой объект, а создавать плитки
-    auto *board = new Board(15, 28);
-    GameObjectsManager::getInstance()->addObject(board);
-
     std::vector<std::string> textures = {
             "assets/img/knight.png",
             "assets/img/grass.png",
@@ -40,7 +36,6 @@ int Engine::start() {
             "assets/img/stone.png",
             "assets/img/timber.png",
             "assets/img/heart.png",
-            "assets/img/water.png",
             "assets/img/skeleton_warrior.png",
             "assets/img/tree.png",
     };
@@ -51,34 +46,43 @@ int Engine::start() {
     sf::Font font;
     font.loadFromFile("assets/fonts/arial.ttf");
 
+    auto *board = new Board(15, 28);
+    board->init();
+
+    std::vector<GameObject *> movesQueue;
+
     auto *stone = new Item();
     stone->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/stone.png"));
-    stone->setPosition(Vector2d::getRandom(1, 3));
+    stone->setPosition(board->getRandomValidPosition(1, 3, 1, 3));
     GameObjectsManager::getInstance()->addObject(stone);
 
     for (int i = 0; i < 3; ++i) {
         auto *timber = new Item();
         timber->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/timber.png"));
-        timber->setPosition(Vector2d::getRandom(0, board->getCols(), 0, board->getRows()));
+        timber->setPosition(board->getRandomValidPosition(0, board->getCols(), 0, board->getRows()));
         GameObjectsManager::getInstance()->addObject(timber);
     }
 
     auto *player = new Player();
     player->setTag("player");
     player->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/knight.png"));
+    player->setPosition(board->getEntryPosition());
     GameObjectsManager::getInstance()->addObject(player);
+    movesQueue.push_back(player);
 
     for (int i = 0; i < ENEMIES_COUNT; i++) {
         auto *enemy = new Enemy();
         enemy->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/skeleton_warrior.png"));
         enemy->setPosition(
-                Vector2d::getRandom(board->getCols() / 2, board->getCols(), board->getRows() / 2, board->getRows())
+                board->getRandomValidPosition(board->getCols() / 2, board->getCols(), board->getRows() / 2, board->getRows())
         );
+        enemy->setTag("enemy");
         GameObjectsManager::getInstance()->addObject(enemy);
+        movesQueue.push_back(enemy);
     }
 
     GameObjectsManager::getInstance()->init();
-    player->setPosition(board->getEntryPosition());
+    int currentMove = 0;
 
     sf::Clock clock;
     sf::Clock pcMoveClock;
@@ -112,6 +116,7 @@ int Engine::start() {
 
                 if (board->isValidPosition(newPosition) && !playerMoved) {
                     playerMoved = true;
+                    currentMove++;
                     player->setPosition(newPosition);
                     pcMoveClock.restart();
                 }
@@ -120,7 +125,9 @@ int Engine::start() {
 
         if (playerMoved && pcMoveClock.getElapsedTime().asSeconds() > aiMoveDelay) {
             // ходы противников
+
             for (auto &enemy: GameObjectsManager::getInstance()->getGameObjects("enemy")) {
+                if (movesQueue.at(currentMove % movesQueue.size()) != enemy) continue;
                 Vector2d enemyPosition = enemy->getPosition();
                 Vector2d diff = player->getPosition() - enemyPosition;
                 int moveX = diff.x / std::abs(diff.x);
@@ -154,7 +161,11 @@ int Engine::start() {
                 enemy->setPosition(newEnemyPosition);
             }
             std::cout << "-------------------------" << std::endl;
-            playerMoved = false;
+            currentMove++;
+            pcMoveClock.restart();
+            if (currentMove % movesQueue.size() == 0) {
+                playerMoved = false;
+            }
         }
 
         // проверка коллизий
@@ -194,6 +205,7 @@ int Engine::start() {
 
         window.clear();
 
+        board->render(&window);
         GameObjectsManager::getInstance()->render(&window);
 
         // выводим здоровье игрока

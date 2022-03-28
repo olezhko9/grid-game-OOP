@@ -5,7 +5,7 @@
 
 enum TileType {
     GROUND = 0,
-    WATER,
+    TREE,
     ENTRANCE,
     EXIT
 };

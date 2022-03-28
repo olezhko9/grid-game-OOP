@@ -41,7 +41,7 @@ void Board::init() {
                 // с вероятность 15% плитка будет непроходимой (вода)
                 if (Random::getInstance()->random() < 0.15) {
                     _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/tree.png"),
-                                        TileType::WATER);
+                                        TileType::TREE);
                 } else {
                     _tiles[i][j] = Tile(i, j, ResourcesManager::getInstance()->getTexture("assets/img/grass.png"),
                                         TileType::GROUND);
@@ -79,5 +79,15 @@ Tile *Board::getTileAt(Vector2d &vector) const {
 
 bool Board::isValidPosition(Vector2d &pos) const {
     return pos.x >= 0 && pos.x < _cols && pos.y >= 0 && pos.y < _rows &&
-           this->getTileAt(pos)->getType() != TileType::WATER;
+           this->getTileAt(pos)->getType() != TileType::TREE;
+}
+
+Vector2d Board::getRandomValidPosition(int minX, int maxX, int minY, int maxY) const {
+    Vector2d pos = {-1, -1};
+    do {
+        pos = Vector2d::getRandom(minX, maxX, minY, maxY);
+        std::cout << pos.x << ", " << pos.y << std::endl;
+    } while (!this->isValidPosition(pos));
+
+    return pos;
 }
