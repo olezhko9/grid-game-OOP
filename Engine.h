@@ -8,7 +8,7 @@ private:
 public:
     Engine(unsigned int maxFps);
 
-    int start();
+    int start() const;
 };
 
 #endif //GAME_ENGINE_H

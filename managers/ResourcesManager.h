@@ -10,7 +10,7 @@ public:
 SingletonHeader(ResourcesManager)
 
 public:
-    void loadTexture(std::string &filepath);
+    void loadTexture(std::string filepath);
 
     const sf::Texture &getTexture(const std::string &filepath) const;
 

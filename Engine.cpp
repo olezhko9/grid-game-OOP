@@ -3,6 +3,7 @@
 #include <random>
 #include <SFML/Graphics.hpp>
 #include <sstream>
+#include <filesystem>
 
 #include "Engine.h"
 #include "managers/GameObjectsManager.h"
@@ -20,7 +21,7 @@ Engine::Engine(unsigned int maxFps) {
     _maxFPS = maxFps;
 }
 
-int Engine::start() {
+int Engine::start() const {
     sf::Vector2<unsigned int> resolution;
     resolution.x = sf::VideoMode::getDesktopMode().width;
     resolution.y = sf::VideoMode::getDesktopMode().height;
@@ -28,19 +29,9 @@ int Engine::start() {
     sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "SFML window");
     window.setFramerateLimit(_maxFPS);
 
-    std::vector<std::string> textures = {
-            "assets/img/knight.png",
-            "assets/img/grass.png",
-            "assets/img/light_earth.png",
-            "assets/img/purple.png",
-            "assets/img/stone.png",
-            "assets/img/timber.png",
-            "assets/img/heart.png",
-            "assets/img/skeleton_warrior.png",
-            "assets/img/tree.png",
-    };
-    for (auto &texture: textures) {
-        ResourcesManager::getInstance()->loadTexture(texture);
+    std::string path = "assets/img";
+    for (const auto &asset: std::filesystem::directory_iterator(path)) {
+        ResourcesManager::getInstance()->loadTexture(asset.path().string());
     }
 
     sf::Font font;
@@ -74,7 +65,8 @@ int Engine::start() {
         auto *enemy = new Enemy();
         enemy->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/skeleton_warrior.png"));
         enemy->setPosition(
-                board->getRandomValidPosition(board->getCols() / 2, board->getCols(), board->getRows() / 2, board->getRows())
+                board->getRandomValidPosition(board->getCols() / 2, board->getCols(), board->getRows() / 2,
+                                              board->getRows())
         );
         enemy->setTag("enemy");
         GameObjectsManager::getInstance()->addObject(enemy);
