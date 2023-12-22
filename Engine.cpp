@@ -2,16 +2,15 @@
 #include <algorithm>
 #include <random>
 #include <SFML/Graphics.hpp>
-#include <sstream>
 #include <filesystem>
 
 #include "Engine.h"
+#include "Board.h"
 #include "managers/GameObjectsManager.h"
 #include "managers/ResourcesManager.h"
-#include "Board.h"
-#include "game_object/player/Player.h"
+#include "game_object/heroes/Player.h"
+#include "game_object/heroes/Enemy.h"
 #include "game_object/items/Item.h"
-#include "game_object/Enemy.h"
 
 #define ENEMIES_COUNT 3
 
@@ -58,6 +57,9 @@ int Engine::start() const {
     player->setTag("player");
     player->setTexture(ResourcesManager::getInstance()->getTexture("assets/img/knight.png"));
     player->setPosition(board->getEntryPosition());
+    player->setHp(100.f);
+    player->setArmor(0.f);
+    player->setAttack(10.f);
     GameObjectsManager::getInstance()->addObject(player);
     movesQueue.push_back(player);
 
@@ -79,7 +81,7 @@ int Engine::start() const {
     sf::Clock clock;
     sf::Clock pcMoveClock;
     bool playerMoved = false;
-    float aiMoveDelay = 0.2f;
+    float aiMoveDelay = 0.1f;
 
     while (window.isOpen()) {
         sf::Time dt = clock.restart();
@@ -174,7 +176,7 @@ int Engine::start() const {
                         if (object2->getTag() == "item") {
                             player->addHp(10);
                         } else if (object2->getTag() == "enemy") {
-                            player->addHp(-10);
+                            player->applyDamage(dynamic_cast<Hero *>(object2)->getAttack());
                         }
                         GameObjectsManager::getInstance()->removeObject(object2);
                     }
@@ -200,9 +202,11 @@ int Engine::start() const {
         board->render(&window);
         GameObjectsManager::getInstance()->render(&window);
 
-        // выводим здоровье игрока
+        // выводим параметры игрока
         std::stringstream ss;
         ss << "Health: " << player->getHp() << "\n"
+           << "Armor: " << player->getArmor() << "\n"
+           << "Attack: " << player->getAttack() << "\n"
            << "Enemies: " << GameObjectsManager::getInstance()->getGameObjects("enemy").size() << "\n"
            << "Items: " << GameObjectsManager::getInstance()->getGameObjects("item").size();
         sf::Text hpText(ss.str(), font);

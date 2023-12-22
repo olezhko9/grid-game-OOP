@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy() : GameObject("enemy") {}
+Enemy::Enemy() {}
 
 void Enemy::init() {
     _sprite.setPosition(_position.x * TILE_SIZE, _position.y * TILE_SIZE);

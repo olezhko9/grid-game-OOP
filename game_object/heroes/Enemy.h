@@ -1,9 +1,9 @@
 #ifndef GAME_ENEMY_H
 #define GAME_ENEMY_H
 
-#include "GameObject.h"
+#include "./Hero.h"
 
-class Enemy : public GameObject {
+class Enemy : public Hero {
 public:
     Enemy();
 
